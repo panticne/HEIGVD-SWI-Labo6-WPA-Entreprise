@@ -50,32 +50,95 @@ rfkill unblock wlan
 Dans cette première partie, vous allez analyser [une connexion WPA Entreprise](files/auth.pcap) avec Wireshark et fournir des captures d’écran indiquant dans chaque capture les données demandées.
 
 - Comparer [la capture](files/auth.pcap) au processus d’authentification donné en théorie (n’oubliez pas les captures d'écran pour illustrer vos comparaisons !). En particulier, identifier les étapes suivantes :
+
 	- Requête et réponse d’authentification système ouvert
+	
+	Requête
+	
+	![Requête auth](images/Requêteauth.JPG)
+	
+	Réponse 
+	
+	![Respo auth](images/respauth.JPG)
+	
  	- Requête et réponse d’association (ou reassociation)
+	
+	Requête association
+	
+	![Reassoc request](images/reassocrequest.JPG)
+	
+	Response association
+	
+	![Reassoc response](images/reassocresp.JPG)
+	
 	- Négociation de la méthode d’authentification entreprise
+
+	![Auth 1](images/méthodeauth.JPG)
+	
+	![Auth 2](images/resonseméthode.JPG)
+
+	![Auth 3](images/méthodeauth3.JPG)
+
 	- Phase d’initiation. Arrivez-vous à voir l’identité du client ?
+	
+	![Identité](images/identité.JPG)
+	
+	Nous voyons l'identité : einet\joel.gonin
+	
 	- Phase hello :
 		- Version TLS
 		- Suites cryptographiques et méthodes de compression proposées par le client et acceptées par l’AP
 		- Nonces
 		- Session ID
+		
+	![Hello client](images/helo.JPG)
+
+	Pour voir la version TLS, il faut voir la ligne : Version
+	
+	Pour voir les suites cryptographiques, il faut regarder : Cipher Suites
+	
+	Pour voir les noncesm il faut regarder : Random
+	
+	Pour voir la Session ID, il faut regarder : Session ID
+	
+	![Hello serveur](images/serveurhello.JPG)
+
+	C'est pareil côté serveur, sauf qu'ici il va indiquer quelle suite cryptographique ils vont utiliser
+
+	La suite qui est choisie est : TLS_RSA_WITH_AES_256_CBC_SHA et la compression est null car rien n'a été choisis.
+
 	- Phase de transmission de certificats
 	 	- Echanges des certificats
 		- Change cipher spec
+
+	Certificats
+	
+	![Certificats](images/serveurhello.JPG)
+	
+	Change cipher
+
+	![Change cipher](images/changecipherspec.JPG)
+
 	- Authentification interne et transmission de la clé WPA (échange chiffré, vu comme « Application data »)
+	
+	![Auth interne](images/Authinterne.JPG)
+
 	- 4-way handshake
+
+	![4 Way Handshake](images/4wayhandshake.JPG)
+
 
 ### Répondez aux questions suivantes :
  
 > **_Question :_** Quelle ou quelles méthode(s) d’authentification est/sont proposé(s) au client ?
 > 
-> **_Réponse :_** 
+> **_Réponse :_** Le serveur propose : EAP-TLS 
 
 ---
 
 > **_Question:_** Quelle méthode d’authentification est finalement utilisée ?
 > 
-> **_Réponse:_** 
+> **_Réponse:_** le client désirerait utiliser : EAP-PEAP
 
 ---
 
@@ -83,11 +146,11 @@ Dans cette première partie, vous allez analyser [une connexion WPA Entreprise](
 > 
 > - a. Le serveur envoie-t-il un certificat au client ? Pourquoi oui ou non ?
 > 
-> **_Réponse:_**
+> **_Réponse:_** Oui, trois certificats sont envoyés afin d'éviter les attaques de type Man In The Middle
 > 
 > - b. Le client envoie-t-il un certificat au serveur ? Pourquoi oui ou non ?
 > 
-> **_Réponse:_**
+> **_Réponse:_** Non, car EAP-PEAP n'a pas besoin de certificats pour s'authentifier
 > 
 
 ---
