@@ -1,3 +1,5 @@
+Nemanja Pantic & David Simeonovic
+
 - [Livrables](#livrables)
 
 - [Échéance](#%c3%89ch%c3%a9ance)
